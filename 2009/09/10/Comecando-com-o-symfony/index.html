@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang=pt>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Diversos colegas já me pediram ajuda para começar com o symfony, então eu enviava um email para eles explicando o básico sobre o symfony(escrito referenciando a versão 1.0, mas sem grandes dramas para">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Começando com o symfony">
+<meta property="og:url" content="https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/index.html">
+<meta property="og:site_name" content="Marcelo Fleury">
+<meta property="og:description" content="Diversos colegas já me pediram ajuda para começar com o symfony, então eu enviava um email para eles explicando o básico sobre o symfony(escrito referenciando a versão 1.0, mas sem grandes dramas para">
+<meta property="og:locale" content="pt_BR">
+<meta property="article:published_time" content="2009-09-10T13:45:00.000Z">
+<meta property="article:modified_time" content="2022-07-13T21:33:57.482Z">
+<meta property="article:author" content="Marcelo Fleury">
+<meta property="article:tag" content="arquitetura">
+<meta property="article:tag" content="coding">
+<meta property="article:tag" content="php">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Começando com o symfony</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="Marcelo Fleury" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/marcelomf">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2009/09/10/Framework-php-Symfony/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&text=Começando com o symfony"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&title=Começando com o symfony"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&is_video=false&description=Começando com o symfony"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Começando com o symfony&body=Check out this article: https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&title=Começando com o symfony"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&title=Começando com o symfony"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&title=Começando com o symfony"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&title=Começando com o symfony"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&name=Começando com o symfony&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&t=Começando com o symfony"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Começando com o symfony
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Marcelo Fleury</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2009-09-10T13:45:00.000Z" itemprop="datePublished">2009-09-10</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/arquitetura/" rel="tag">arquitetura</a>, <a class="tag-link-link" href="/tags/coding/" rel="tag">coding</a>, <a class="tag-link-link" href="/tags/php/" rel="tag">php</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Diversos colegas já me pediram ajuda para começar com o symfony, então eu enviava um email para eles explicando o básico sobre o symfony(escrito referenciando a versão 1.0, mas sem grandes dramas para a 1.2), segue abaixo o conteúdo do email.</p>
+<p>Ele usa o propel para orm ou o doctrine, a versão 1.3 do propel está usando o pdo para abstração de dados, enquanto que a 1.2 utiliza o creole, o doctrine já nasceu usando o pdo… é mais vantagem utilizar o PDO pois o mesmo tornou-se nativo no php, recomendo então que você utilize o symfony com a versão 1.3 do propel ou com o doctrine…  </p>
+<p>o symfony funciona em MVC e com as seguintes particularidades:  </p>
+<p>1 - Preparar o apache para o symfony funcionar… habilitar o mod_rewrite e criar um Alias…(na documentação em anexo ensina isso)  </p>
+<p>2 - Modela-se(<a target="_blank" rel="noopener" href="http://sourceforge.net/projects/dbdesigner-fork">http://sourceforge.net/projects/dbdesigner-fork</a>) o banco de dados seguindo os padrões que o symfony exige, exemplo:<br>Chave primaria -&gt; id<br>Chave estrangeiras -&gt; tabela_id<br>boolean como tinyint…</p>
+<p>3 - Cria a pasta do projeto(mkdir projeto) e dentro dela cria-se o projeto com symfony init-project e depois cria-se a aplicação com symfony init-app.  </p>
+<p>4 - Faz-se a engenharia reversa no banco com o intuito de gerar o schema.xml&#x2F;schema.yml utilizado pelo propel para criar o modelo, symfony propel-build-schema (antes você tem que configurar config&#x2F;databases.yml e propel.ini )  </p>
+<p>5 - Gerar o model com symfony propel-build-model, as classes ficam em lib&#x2F;model, em lib&#x2F;model&#x2F;om ficam as classes que ele realmente gerou… as que ficam no model são as que você ira adicionar código… seja para persistência ou regra de negocio. Lendo a documentação você consegue trabalhar com pacotes! Para criar pacotes com classes que não tem a ver com o banco, procure sobre autoload, além disso você pode trabalhar com mais de um banco de dados, basta configurar o databases.yml corretamente.  </p>
+<p>6 - Gerar o view e o controle com propel-init-admin, existe o generete-crud e init-crud, de longe eu prefiro o init-admin, pois o código gerado segue os padrões tableless…, uma vez gerado com o<br>init-admin você precisa aprender a utilizar o generators.yml que é o que “configura” o VIEW… para telas mais trabalhadas eu prefiro criar a pasta templates no modulo da aplicação e copiar do cache o código gerado do view, copio só o que preciso e altero… é bom dar uma lida no código gerado na pasta cache… só assim para entender legal como funciona o controle e o view…  </p>
+<p>Dos framework’s que eu olhei na época(meados de 2007… cakephp, phpinsigner, symfony, zend) o symfony é o que tem uma maior curva de aprendizado… mas de longe era o melhor estruturado e que me fornece total possibilidade de customização… recomendo ele fortemente!  </p>
+<p>links:<br><a target="_blank" rel="noopener" href="http://www.symfony-project.org/doc/1_0/">http://www.symfony-project.org/doc/1_0&#x2F;</a><br><a target="_blank" rel="noopener" href="http://symfony-brasil.com/">http://symfony-brasil.com/</a><br><a target="_blank" rel="noopener" href="http://trac.symfony-brasil.com/">http://trac.symfony-brasil.com/</a>  </p>
+<p>plugins:<br><a target="_blank" rel="noopener" href="http://trac.symfony-project.com/wiki/SymfonyPlugins">http://trac.symfony-project.com/wiki/SymfonyPlugins</a>  </p>
+<p>lista:<br><a target="_blank" rel="noopener" href="http://groups.google.com/group/symfony-pt/topics">http://groups.google.com/group/symfony-pt/topics</a></p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/marcelomf">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&text=Começando com o symfony"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&title=Começando com o symfony"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&is_video=false&description=Começando com o symfony"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Começando com o symfony&body=Check out this article: https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&title=Começando com o symfony"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&title=Começando com o symfony"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&title=Começando com o symfony"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&title=Começando com o symfony"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&name=Começando com o symfony&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://marcelo.dev/2009/09/10/Comecando-com-o-symfony/&t=Começando com o symfony"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2008-2022
+    Marcelo Fleury
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/marcelomf">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

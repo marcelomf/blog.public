@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang=pt>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Quero compartilhar com vocês um projeto que conheci através do colega Wagner Elias, chama-se PHPIDS, através de assinaturas que utilizam expressões regulares você cria filtros que tem o objetivo d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHPIDS - IDS incorporado na sua aplicação">
+<meta property="og:url" content="https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/index.html">
+<meta property="og:site_name" content="Marcelo Fleury">
+<meta property="og:description" content="Quero compartilhar com vocês um projeto que conheci através do colega Wagner Elias, chama-se PHPIDS, através de assinaturas que utilizam expressões regulares você cria filtros que tem o objetivo d">
+<meta property="og:locale" content="pt_BR">
+<meta property="article:published_time" content="2009-09-11T12:46:00.000Z">
+<meta property="article:modified_time" content="2022-07-13T21:33:57.482Z">
+<meta property="article:author" content="Marcelo Fleury">
+<meta property="article:tag" content="segurança">
+<meta property="article:tag" content="arquitetura">
+<meta property="article:tag" content="coding">
+<meta property="article:tag" content="php">
+<meta property="article:tag" content="ids&#x2F;ips">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>PHPIDS - IDS incorporado na sua aplicação</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="Marcelo Fleury" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/marcelomf">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2009/09/10/Comecando-com-o-symfony/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&text=PHPIDS - IDS incorporado na sua aplicação"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&title=PHPIDS - IDS incorporado na sua aplicação"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&is_video=false&description=PHPIDS - IDS incorporado na sua aplicação"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PHPIDS - IDS incorporado na sua aplicação&body=Check out this article: https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&title=PHPIDS - IDS incorporado na sua aplicação"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&title=PHPIDS - IDS incorporado na sua aplicação"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&title=PHPIDS - IDS incorporado na sua aplicação"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&title=PHPIDS - IDS incorporado na sua aplicação"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&name=PHPIDS - IDS incorporado na sua aplicação&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&t=PHPIDS - IDS incorporado na sua aplicação"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        PHPIDS - IDS incorporado na sua aplicação
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Marcelo Fleury</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2009-09-11T12:46:00.000Z" itemprop="datePublished">2009-09-11</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/arquitetura/" rel="tag">arquitetura</a>, <a class="tag-link-link" href="/tags/coding/" rel="tag">coding</a>, <a class="tag-link-link" href="/tags/ids-ips/" rel="tag">ids/ips</a>, <a class="tag-link-link" href="/tags/php/" rel="tag">php</a>, <a class="tag-link-link" href="/tags/seguranca/" rel="tag">segurança</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <!-- @page { margin: 2cm } P { margin-bottom: 0.21cm } A:link { so-language: zxx } -->  
+
+<p>Quero compartilhar com vocês um projeto que conheci através do colega Wagner Elias, chama-se PHPIDS, através de assinaturas que utilizam expressões regulares você cria filtros que tem o objetivo de detectar ataques que exploram a falta de tratamento na entrada de dados, como iSQL, XSS(para + veja owasp). O legal é que conseguindo diminuir os falsos positivos, você pode por exemplo integrar o phpids a sua camada de controle e fazer com que o mesmo funcione como um IPS.  </p>
+<p>Outro fato importante é que você aproxima a segurança da equipe de desenvolvimento e que a segurança fica incorporada a sua aplicação e não ao seu servidor de aplicação e ou protocolo de comunicação(http), como no caso de se usar o mod_security do apache para WAF, mesmo que com proxy reverso você consiga fazer o filtro em um ambiente destinto da aplicação e até mesmo de outros servidores de aplicação que não o apache, mas é importante lembrar que com o mod_security o tratamento se restringe a tráfego http que você acaba criando mais um vetor de ataque(alá falhas do mod_proxy), além de que com mod_security, normalmente a configuração do mesmo fica atrelada a equipe de infra e não a de desenvolvimento.  </p>
+<p>Gostei muito do projeto, gostaria de saber se existe algum semelhante em java e o mais legal, seria poder compartilhar regras entre os mais diversos IDS’s, para evitar retrabalho… desconheço um projeto que se preocupe com a interoperabilidade de regras entre IDS’s.  </p>
+<p>O Wagner Elias vai palestrar sobre o phpids na PHPConference 2009, inclusive, levantando a possibilidade de integrar o mesmo ao memcached, evitando ou minimizando assim o overhead.  </p>
+<p>Abaixo um filtro do PHPIDS:</p>
+<filter>  
+<id>44</id>  
+<rule>  
+(?:\\d"\\s+"\\s+\\d)|(?:^admin\\s\*"|(\\/\\\*)+"+\\s?(?:--|#|\\/\\\*|{)?)|(?:"\\s\*or\[\\w\\s-\]+\\s\*\[+<>=(),-\]\\s\*\[\\d"\])|(?:"\\s\*\[^\\w\\s\]?=\\s\*")|(?:"\\W\*\[+=\]+\\W\*")|(?:"\\s\*\[!=|\]\[\\d\\s!=+-\]+.\*\["(\].\*$)|(?:"\\s\*\[!=|\]\[\\d\\s!=\]+.\*\\d+$)|(?:"\\s\*like\\W+\[\\w"(\])|(?:\\sis\\s\*0\\W)|(?:where\\s\[\\s\\w\\.,-\]+\\s=)|(?:"\[<>~\]+")  
+</rule>  
+<description>  
+Detects basic SQL authentication bypass attempts 1/3  
+</description>  
+<tags>  
+<tag>sqli</tag>  
+<tag>id</tag>  
+<tag>lfi</tag>  
+</tags>  
+<impact>7</impact>  
+</filter>  
+  
+<p>Para saber mais:  </p>
+<p><a target="_blank" rel="noopener" href="http://php-ids.org/faq/">http://php-ids.org/faq/</a></p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/marcelomf">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&text=PHPIDS - IDS incorporado na sua aplicação"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&title=PHPIDS - IDS incorporado na sua aplicação"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&is_video=false&description=PHPIDS - IDS incorporado na sua aplicação"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PHPIDS - IDS incorporado na sua aplicação&body=Check out this article: https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&title=PHPIDS - IDS incorporado na sua aplicação"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&title=PHPIDS - IDS incorporado na sua aplicação"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&title=PHPIDS - IDS incorporado na sua aplicação"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&title=PHPIDS - IDS incorporado na sua aplicação"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&name=PHPIDS - IDS incorporado na sua aplicação&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://marcelo.dev/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/&t=PHPIDS - IDS incorporado na sua aplicação"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2008-2022
+    Marcelo Fleury
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/marcelomf">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

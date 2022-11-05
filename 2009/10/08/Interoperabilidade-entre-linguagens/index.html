@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang=pt>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Pesquisando um pouco sobre computação distribuída, objetos distribuídos, grid computing, cloud computing e etc. Pensando em uma aplicação na qual não interessa a linguagem e sim o serviço, logo ve">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Interoperabilidade entre linguagens">
+<meta property="og:url" content="https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/index.html">
+<meta property="og:site_name" content="Marcelo Fleury">
+<meta property="og:description" content="Pesquisando um pouco sobre computação distribuída, objetos distribuídos, grid computing, cloud computing e etc. Pensando em uma aplicação na qual não interessa a linguagem e sim o serviço, logo ve">
+<meta property="og:locale" content="pt_BR">
+<meta property="article:published_time" content="2009-10-08T20:19:00.000Z">
+<meta property="article:modified_time" content="2022-07-13T21:33:57.478Z">
+<meta property="article:author" content="Marcelo Fleury">
+<meta property="article:tag" content="segurança">
+<meta property="article:tag" content="software livre">
+<meta property="article:tag" content="arquitetura">
+<meta property="article:tag" content="coding">
+<meta property="article:tag" content="php">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="c">
+<meta property="article:tag" content="ruby">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Interoperabilidade entre linguagens</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title="Marcelo Fleury" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/marcelomf">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2009/10/22/MVC-interoperando/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&text=Interoperabilidade entre linguagens"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&title=Interoperabilidade entre linguagens"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&is_video=false&description=Interoperabilidade entre linguagens"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Interoperabilidade entre linguagens&body=Check out this article: https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&title=Interoperabilidade entre linguagens"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&title=Interoperabilidade entre linguagens"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&title=Interoperabilidade entre linguagens"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&title=Interoperabilidade entre linguagens"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&name=Interoperabilidade entre linguagens&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&t=Interoperabilidade entre linguagens"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Interoperabilidade entre linguagens
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Marcelo Fleury</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2009-10-08T20:19:00.000Z" itemprop="datePublished">2009-10-08</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/arquitetura/" rel="tag">arquitetura</a>, <a class="tag-link-link" href="/tags/c/" rel="tag">c</a>, <a class="tag-link-link" href="/tags/coding/" rel="tag">coding</a>, <a class="tag-link-link" href="/tags/java/" rel="tag">java</a>, <a class="tag-link-link" href="/tags/php/" rel="tag">php</a>, <a class="tag-link-link" href="/tags/ruby/" rel="tag">ruby</a>, <a class="tag-link-link" href="/tags/seguranca/" rel="tag">segurança</a>, <a class="tag-link-link" href="/tags/software-livre/" rel="tag">software livre</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <!-- @page { margin: 2cm } P { margin-bottom: 0.21cm } A:link { so-language: zxx } -->  
+
+<p>Pesquisando um pouco sobre computação distribuída, objetos distribuídos, grid computing, cloud computing e etc. Pensando em uma aplicação na qual não interessa a linguagem e sim o serviço, logo vem a minha cabeça os webservice’s, soa, etc. Mas hoje, estava procurando por algo mais robusto, sem a necessidade de se ter um httpd por exemplo.  </p>
+<p>Comecei lendo sobre rmi, corba, jini, jxta, jms e acabei chegando em ICE(Internet Comunications Engine) e consequentemente no projeto zeroC que inclusive tem a participação de alguns artistas responsáveis pelo corba. Baixei o manual e fiquei impressionado com tanta documentação e no poder que a tecnologia pode me fornecer e no quanto a complexidade envolvida parece ser abstraída. Abaixo o site do projeto:<br><a target="_blank" rel="noopener" href="http://www.zeroc.com/">http://www.zeroc.com/</a>  </p>
+<p>Depois de algumas pesquisas, conheci outros projetos nessa mesma linha, com destaque para o ActiveMQ da apache, outros podem ser encontrados aqui:  </p>
+<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Enterprise_application_integration">http://en.wikipedia.org/wiki/Enterprise_application_integration</a>  </p>
+<p><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Java_Message_Service">http://en.wikipedia.org/wiki/Java_Message_Service</a>  </p>
+<p>Estou desenvolvendo um projeto que envolve computação distribuída e segurança da informação. O mesmo será open source! Estou terminando a parte de firewall para disponibilizar os códigos e quem sabe contar com a colaboração da comunidade.  </p>
+<p>[]s</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/marcelomf">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&text=Interoperabilidade entre linguagens"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&title=Interoperabilidade entre linguagens"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&is_video=false&description=Interoperabilidade entre linguagens"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Interoperabilidade entre linguagens&body=Check out this article: https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&title=Interoperabilidade entre linguagens"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&title=Interoperabilidade entre linguagens"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&title=Interoperabilidade entre linguagens"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&title=Interoperabilidade entre linguagens"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&name=Interoperabilidade entre linguagens&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://marcelo.dev/2009/10/08/Interoperabilidade-entre-linguagens/&t=Interoperabilidade entre linguagens"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2008-2022
+    Marcelo Fleury
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/marcelomf">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>
