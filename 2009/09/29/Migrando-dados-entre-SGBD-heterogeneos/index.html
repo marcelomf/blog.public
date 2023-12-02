@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang=pt>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="No início do ano foi me dada a tarefa de sincronizar 2 bases de dados(+300 tabelas de alguns gigas) entre SGBD’s distintos(db2 -&gt; mysql), estando limitado a um link de 512kb para a transferência do">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Migrando dados entre SGBD heterogêneos">
+<meta property="og:url" content="https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/index.html">
+<meta property="og:site_name" content="Marcelo Fleury">
+<meta property="og:description" content="No início do ano foi me dada a tarefa de sincronizar 2 bases de dados(+300 tabelas de alguns gigas) entre SGBD’s distintos(db2 -&gt; mysql), estando limitado a um link de 512kb para a transferência do">
+<meta property="og:locale" content="pt_BR">
+<meta property="article:published_time" content="2009-09-29T19:09:00.000Z">
+<meta property="article:modified_time" content="2023-12-02T12:21:47.454Z">
+<meta property="article:author" content="Marcelo Fleury">
+<meta property="article:tag" content="software livre">
+<meta property="article:tag" content="coding">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="banco de dados">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Migrando dados entre SGBD heterogêneos</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/projects/">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2009/10/08/Interoperabilidade-entre-linguagens/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2009/09/11/PHPIDS-IDS-incorporado-na-sua-aplicacao/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&text=Migrando dados entre SGBD heterogêneos"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&title=Migrando dados entre SGBD heterogêneos"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&is_video=false&description=Migrando dados entre SGBD heterogêneos"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Migrando dados entre SGBD heterogêneos&body=Check out this article: https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&title=Migrando dados entre SGBD heterogêneos"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&title=Migrando dados entre SGBD heterogêneos"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&title=Migrando dados entre SGBD heterogêneos"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&title=Migrando dados entre SGBD heterogêneos"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&name=Migrando dados entre SGBD heterogêneos&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&t=Migrando dados entre SGBD heterogêneos"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Migrando dados entre SGBD heterogêneos
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Marcelo Fleury</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2009-09-29T19:09:00.000Z" class="dt-published" itemprop="datePublished">2009-09-29</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/banco-de-dados/" rel="tag">banco de dados</a>, <a class="p-category" href="/tags/coding/" rel="tag">coding</a>, <a class="p-category" href="/tags/java/" rel="tag">java</a>, <a class="p-category" href="/tags/software-livre/" rel="tag">software livre</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>No início do ano foi me dada a tarefa de sincronizar 2 bases de dados(+300 tabelas de alguns gigas) entre SGBD’s distintos(db2 -&gt; mysql), estando limitado a um link de 512kb para a transferência dos dados. Pesquisei diversas soluções open source’s e proprietárias, as soluções proprietárias para realizar ETL foram descartadas pela empresa devido ao custo. Logo, me sobrou as soluções open source, oba ;).  </p>
+<p>Como já era de se esperar, eu não encontrei nenhuma solução open source que se encaixasse como um luva para o meu problema, mais tudo bem, é nesse momento que entra a diversão xD. Dividindo a esquemática em 2 etapas, temos:  </p>
+<p>   1.Migrar o DDL, deixando que o novo banco de dados(slave&#x2F;destino dos dados&#x2F;mysql) tenha a estrutura semelhante ou igual ao do banco já existente(master&#x2F;origem dos dados&#x2F;db2).<br>   2.Migrar e sincronizar os dados todas as noites, pois não fazia parte dos requisitos da solução uma sincronização “on the fly”.  </p>
+<p>No início eu estava procurando por features do próprio banco de dados para tentar trabalhar com task’s e procedure’s, li algumas coisas sobre dblink(postgresql&#x2F;mysql)&#x2F;data federation(db2), mas como o meu acesso ao ambiente de origem era restrito(ddl dos schema’s e view’s para acessar os dados) eu tive que ir para outro rumo. Antes de começar a falar sobre o dbmt(<a target="_blank" rel="noopener" href="http://sourceforge.net/projects/dbmt/">http://sourceforge.net/projects/dbmt/</a>) software que me ajudou a resolver o problema, quero citar outros 2 projetos que me chamaram a atenção, mas que infelizmente não deu para serem aplicados na minha realidade(restrições de acesso no ambiente de origem), são eles:<br><a target="_blank" rel="noopener" href="http://symmetricds.codehaus.org/">http://symmetricds.codehaus.org/</a><br><a target="_blank" rel="noopener" href="http://www.drbd.org/">http://www.drbd.org/</a>  </p>
+<p>Para migrar o DDL foi utilizado o mysql migration tools, existe diversas ferramentas que fazem isso, o melhor é pegar uma especifica do seu banco destino(no meu caso mysql)… testei varias e mesmo o mysql migration tools não funcionou 100%, pois tive que migrar schema por schema e consertar algumas foreign key na mão(isso porque o mysql não suporta foreign key entre schemas, já o DB2 sim). Depois de estar com o DDL 100%, realizei algumas alterações na nomeclatura das tabelas para atender melhor ao padrão de modelagem de dados da empresa onde trabalho. Feito isso, fui para a segunda etapa, customizar o DBMT para migrar e sincronizar os dados todas as noites.  </p>
+<p>O dbmt é software open source escrito em java que realiza a engenharia reversa em uma fonte de dados(jdbc&#x2F;xml&#x2F;csv&#x2F;dbf) e gera um xml relacionado a fonte de origem e de destino, bem como suas tabelas e colunas. É exatamente o que eu pensei em fazer na época, mas graças ao open source consegui pronto ;), mas como eu tinha dito antes, não foi lá as mil maravilhas, então vamos aos fatos.  </p>
+<p>Todas as noites o banco de dados de destino(mysql) tinha as suas tabelas truncadas e os seus dados eram reimportados do banco origem(db2), isso é algo bastante ruim, pois eu não queria perder tempo&#x2F;banda, trazendo novamente dados que eu já tinha e que não sofreram alterações(a regra de negócio me garantia isso)… para resolver isso, comecei a trabalhar nas tabelas mais criticas em termos de tamanho (tabelas de movimentação financeira&#x2F;contábil) e passei a trazer os registros a partir do último registro que eu possuía, na realidade alguns registros para traz, utilizando unique’s compostas, eu conseguia garantir que jamais teria um dado duplicado. Isso vai depender muito do seu negócio e da sua necessidade.  </p>
+<p>Para migrar dados com o dbmt, você passa por 2 etapas, são elas:  </p>
+<p>   1.Criação do xml.<br>È aqui que altero o xml que será gerado, buscando atender as minhas necessidades e que verifico os últimos registros das tabelas de movimentação no banco destino(mysql) e crio as condições&#x2F;where’s que serão executadas lá no banco de dados origem(db2), isso para ganhar tempo. Para fazer isso, foi necessário alterar a classe:<br>      1.CreateMigration<br>         1.Criei também 2 métodos, um para adicionar prioridade para determinadas tabelas e outro para bypassar determinadas tabelas.<br>         2.Uma classe para conexão jdbc ao meu banco destino(mysql).<br>         3.Uma classe para geração das condições&#x2F;where’s de cada tabela que é feito de acordo com a “regra de negócio de persistência” das mesmas.<br>         4.Alterei o método extractTable() para gerar as tabelas e colunas de acordo com a nomeclatura padrão do meu banco destino(mysql).<br>   2.Importação dos dados.<br>Uma vez que o xml está gerado, o dbmt utiliza o mesmo para começar a importação. Nessa etapa eu tive 2 problemas:<br>      1.Precisava desabilitar a checagem de integridade de referencia das foreign keys no mysql, para isso, alterei o método initTarget da classe MigrationJDBC e adicionei as seguintes variáveis de conexão:<br>?autoReconnect&#x3D;true&amp;sessionVariables&#x3D;FOREIGN_KEY_CHECKS&#x3D;0<br>      2.Outro problema estava relacionado ao SqlJep que o DBMT utiliza para a aplicação dos where’s, o SqlJep busca ser uma linguagem padrão para DML em SGBD’s distintos, o problema é que o where erá aplicado em cima do resultset select * from dborigemDB2.nome_tabela, ou seja, o where não erá aplicado diretamente no banco de dados origem(db2) e sim seu resultset(do select * from…), dessa forma, toda a economia de banda que eu teria ganhando criando os where’s dinâmicos na etapa 1(criação do xml) seria perdida… para resolver isso, foi necessário alterar o método initSource para não utilizar o sqljep e aplicar o where diretamente no banco de dados origem(db2), o ruim disso é que o DML desse select teve que ser padrão DB2 que por sinal é bem chatinho, mas nada que uma googada não resolva.  </p>
+<p>Se você achou interessante essa solução, baixe o source do dbmt e estude principalmente as classes: CreateMigration, Migration, MigrationJDBC e Step. Não deixe de criar rotinas que possam validar realmente a integridade dos dados entre origem&#x2F;destino, é isso! Abraços.</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/projects/">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&text=Migrando dados entre SGBD heterogêneos"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&title=Migrando dados entre SGBD heterogêneos"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&is_video=false&description=Migrando dados entre SGBD heterogêneos"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Migrando dados entre SGBD heterogêneos&body=Check out this article: https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&title=Migrando dados entre SGBD heterogêneos"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&title=Migrando dados entre SGBD heterogêneos"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&title=Migrando dados entre SGBD heterogêneos"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&title=Migrando dados entre SGBD heterogêneos"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&name=Migrando dados entre SGBD heterogêneos&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://marcelo.dev/2009/09/29/Migrando-dados-entre-SGBD-heterogeneos/&t=Migrando dados entre SGBD heterogêneos"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Marcelo Fleury
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/projects/">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
